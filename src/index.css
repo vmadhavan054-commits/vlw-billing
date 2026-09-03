@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #ffffff;
+  color: #111827;
+}
+
+.font-display {
+  font-family: 'Barlow Condensed', sans-serif;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: #d6cfbf; border-radius: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+/* ---------- PRINT ---------- */
+@media print {
+  @page {
+    size: A4;
+    margin: 10mm;
+  }
+  body * {
+    visibility: hidden;
+  }
+  #print-invoice, #print-invoice * {
+    visibility: visible;
+  }
+  #print-invoice {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-thermal #print-invoice {
+    width: 80mm;
+  }
+}
+
+.input-field {
+  @apply w-full rounded-lg border border-ink-700/15 bg-white px-3 py-2 text-sm text-ink-900 placeholder:text-ink-600/50 focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent;
+}
+
+.label-field {
+  @apply mb-1 block text-xs font-semibold uppercase tracking-wide text-ink-600;
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg bg-red-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-red-700 active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none;
+}
+
+.btn-accent {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg bg-red-500 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-red-600 active:scale-[0.98] disabled:opacity-40 disabled:pointer-events-none;
+}
+
+.btn-ghost {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg border border-ink-700/15 bg-white px-4 py-2.5 text-sm font-semibold text-ink-800 transition hover:bg-ink-900/5 active:scale-[0.98];
+}
+
+.btn-danger {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg bg-red-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-red-700;
+}
+
+.card {
+  @apply rounded-2xl border border-ink-700/10 bg-white shadow-sm;
+}

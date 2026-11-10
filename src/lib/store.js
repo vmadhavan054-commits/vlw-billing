@@ -11,7 +11,7 @@ function defaultData() {
       tagline: 'GET IT RENEWED',
       address: 'Chennai, Tamil Nadu',
       mobile: '',
-      gstin: '',
+      gstin: '33AIHPV3557A2ZC',
       email: '',
       bankName: '',
       accountNumber: '',
@@ -44,7 +44,8 @@ function load() {
         ...defaults.settings,
         ...(parsed.settings || {}),
         tagline: (parsed.settings && parsed.settings.tagline && parsed.settings.tagline !== 'Car Accessories & Lining Works') ? parsed.settings.tagline : 'GET IT RENEWED',
-        logo: (parsed.settings && parsed.settings.logo) ? parsed.settings.logo : '/logo.png'
+        logo: (parsed.settings && parsed.settings.logo) ? parsed.settings.logo : '/logo.png',
+        gstin: (parsed.settings && parsed.settings.gstin && parsed.settings.gstin.trim()) ? parsed.settings.gstin : '33AIHPV3557A2ZC',
       }
     }
   } catch (e) {

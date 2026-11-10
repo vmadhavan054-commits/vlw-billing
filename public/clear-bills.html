@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head><title>Clearing Bills...</title></head>
+<body>
+<script>
+  try {
+    const raw = localStorage.getItem('vlw_billing_data_v1');
+    if (raw) {
+      const data = JSON.parse(raw);
+      data.bills = [];
+      data.settings = { ...data.settings, nextInvoiceSeq: 1 };
+      localStorage.setItem('vlw_billing_data_v1', JSON.stringify(data));
+    }
+  } catch(e) {}
+  window.location.href = '/';
+</script>
+<p>Clearing all bills... redirecting...</p>
+</body>
+</html>

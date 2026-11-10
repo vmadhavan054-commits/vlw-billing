@@ -29,6 +29,7 @@ export default function NewBill({ store, editBillId, onSaved, goToBills }) {
   const [paymentMethod, setPaymentMethod] = useState(editing?.paymentMethod || draft?.paymentMethod || 'Cash')
   const [paidAmount, setPaidAmount] = useState(editing?.paidAmount ?? draft?.paidAmount ?? '')
   const [notes, setNotes] = useState(editing?.notes || '')
+  const [partyGstin, setPartyGstin] = useState(editing?.partyGstin || draft?.partyGstin || '')
   const [matchInfo, setMatchInfo] = useState('')
   const [errors, setErrors] = useState({})
   const [savedBill, setSavedBill] = useState(null)
@@ -64,7 +65,7 @@ export default function NewBill({ store, editBillId, onSaved, goToBills }) {
     draftTimer.current = setTimeout(() => {
       const hasContent = mobile || customerName || items.some(i => i.name || i.rate)
       if (hasContent) {
-        saveDraft({ mobile, customerId, customerName, vehicleNumber, vehicleModel, address, date, gstType, items, paymentMethod, paidAmount })
+        saveDraft({ mobile, customerId, customerName, vehicleNumber, vehicleModel, address, date, gstType, items, paymentMethod, paidAmount, partyGstin })
       }
     }, 800)
     return () => clearTimeout(draftTimer.current)
@@ -85,7 +86,7 @@ export default function NewBill({ store, editBillId, onSaved, goToBills }) {
   function validate() {
     const e = {}
     if (!customerName.trim()) e.customerName = 'Customer name is required'
-    if (!/^\d{10}$/.test(mobile)) e.mobile = 'Enter a valid 10-digit mobile number'
+    if (mobile && !/^\d{10}$/.test(mobile)) e.mobile = 'Enter a valid 10-digit mobile number'
     const validItems = items.filter(i => i.name && Number(i.rate) > 0)
     if (validItems.length === 0) e.items = 'Add at least one item with a rate'
     items.forEach(i => {
@@ -128,6 +129,7 @@ export default function NewBill({ store, editBillId, onSaved, goToBills }) {
       paymentMethod,
       paidAmount: paymentMethod === 'Credit' ? Number(paidAmount) || 0 : totals.grandTotal,
       notes,
+      partyGstin: partyGstin.trim(),
       createdAt: editing?.createdAt,
     }
 
@@ -175,7 +177,7 @@ export default function NewBill({ store, editBillId, onSaved, goToBills }) {
         <p className="mb-3 font-display text-lg font-semibold text-ink-900">Customer & Vehicle</p>
         <div className="grid gap-3 sm:grid-cols-2">
           <div>
-            <label className="label-field">Mobile Number</label>
+            <label className="label-field">Mobile Number (optional)</label>
             <div className="relative">
               <Search size={15} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-ink-600/40" />
               <input
@@ -205,6 +207,18 @@ export default function NewBill({ store, editBillId, onSaved, goToBills }) {
           <div className="sm:col-span-2">
             <label className="label-field">Address (optional)</label>
             <input value={address} onChange={e => setAddress(e.target.value)} className="input-field" />
+          </div>
+          <div className="sm:col-span-2">
+            <label className="label-field">
+              Party GSTIN <span className="text-ink-400 font-normal text-[11px]">(Optional — leave blank if customer has no GST)</span>
+            </label>
+            <input
+              value={partyGstin}
+              onChange={e => setPartyGstin(e.target.value.toUpperCase())}
+              placeholder="e.g. 33ABCDE1234F1Z5"
+              maxLength={15}
+              className="input-field font-mono tracking-widest"
+            />
           </div>
         </div>
       </div>

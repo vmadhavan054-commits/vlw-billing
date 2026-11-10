@@ -39,6 +39,7 @@ export default function InvoicePrint({ bill, settings, mode = 'a4' }) {
             <p className={isThermal ? '' : 'text-xs font-semibold uppercase text-ink-600'}>Bill To</p>
             <p className="font-semibold">{bill.customerSnapshot?.name}</p>
             <p>{bill.customerSnapshot?.mobile}</p>
+            {bill.partyGstin && <p className={isThermal ? 'text-[10px]' : 'text-sm text-ink-700 font-medium'}>GSTIN: {bill.partyGstin}</p>}
           </div>
           <div className={isThermal ? '' : 'text-right'}>
             <p className={isThermal ? '' : 'text-xs font-semibold uppercase text-ink-600'}>Vehicle</p>
